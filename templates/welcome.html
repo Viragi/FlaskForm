@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Adopt Me!!</h1>
+
+  <div>
+    {% for pet in pets %}
+    <div>
+        <li class="media">
+            <img class="mr-3 " src="{{pet.getphotourl()}}" alt="" style="height: 150px">
+            <div class="media-body">
+            <a href="{{url_for('edit_form',id=pet.id)}}">
+            <p>{{pet.name}} 
+            {% if pet.available==true %}
+            Is available
+            {% endif %}</p>   
+                </a>
+              </div>
+              {% endfor %}
+            
+          </li>
+    </div>
+
+
+<div>
+<div>
+<a href="{{url_for('add_pet_form')}}"> Add pet</a>
+</div>
+</div>
+<br>
+<h5>Random pet from pet finder</h5>
+<div id="apiImg"></div>
+<script> 
+document.addEventListener("DOMContentLoaded" , function(){
+  $.getJSON("http://api.petfinder.com/pet.getRandom?key=85a5f3476f8cfa4edb428b1bd058d02d&format=json&output=basic&callback=?").then(function(response){
+    console.log(response);
+    $("#apiImg").append('<div><img src= "'+ response.petfinder.pet.media.photos.photo[2].$t + '"></div>')
+})
+
+})
+
+</script>
+{% endblock %}
